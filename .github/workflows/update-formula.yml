@@ -1,0 +1,53 @@
+name: Update Formula
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (without v prefix)"
+        required: true
+      sha256_arm64:
+        description: "SHA256 of wd-macos-arm64.tar.gz"
+        required: true
+      sha256_x64:
+        description: "SHA256 of wd-macos-x64.tar.gz"
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update formula
+        env:
+          VERSION: ${{ github.event.inputs.version }}
+          ARM64_SHA: ${{ github.event.inputs.sha256_arm64 }}
+          X64_SHA: ${{ github.event.inputs.sha256_x64 }}
+        run: |
+          sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/wd.rb
+
+          awk -v arm_sha="$ARM64_SHA" -v x64_sha="$X64_SHA" '
+            /Hardware::CPU.arm\?/ { in_arm=1 }
+            /else/ { in_arm=0; in_x64=1 }
+            /sha256 / {
+              if (in_arm) {
+                sub(/sha256 ".*"/, "sha256 \"" arm_sha "\"")
+                in_arm=0
+              } else if (in_x64) {
+                sub(/sha256 ".*"/, "sha256 \"" x64_sha "\"")
+                in_x64=0
+              }
+            }
+            { print }
+          ' Formula/wd.rb > Formula/wd.rb.tmp && mv Formula/wd.rb.tmp Formula/wd.rb
+
+      - name: Commit and push
+        env:
+          VERSION: ${{ github.event.inputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/wd.rb
+          git commit -m "Update wd to $VERSION"
+          git push
