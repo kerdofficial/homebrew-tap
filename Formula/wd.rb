@@ -1,16 +1,16 @@
 class Wd < Formula
   desc "Workspace Director - fast project navigation CLI"
   homepage "https://github.com/kerdofficial/wd"
-  version "1.2.1"
+  version "1.3.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-macos-arm64.tar.gz"
-      sha256 "4f0dc6919c83c8c83eca92e0903ba0891bf8de2c55ab03441a6af1e0ff757981"
+      sha256 "de21ec4e82946da04ee9cc7062f16132fc06fa8168cecf92e7c7be26e3b1c543"
     else
       url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-macos-x64.tar.gz"
-      sha256 "8b6e8adf42977126e2c6f652ec34230d09c7f5ade0feaaed9e0fa9761c67246e"
+      sha256 "737678934df05aa44a060722aac733a72c10dca99420284869e7be23deb047be"
     end
   end
 
