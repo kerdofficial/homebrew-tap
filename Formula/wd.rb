@@ -27,6 +27,8 @@ class Wd < Formula
 
       Then reload: source ~/.zshrc
       First-time setup: wd setup
+
+      Coming soon: bash, fish, PowerShell, and Nushell support
     EOS
   end
 
