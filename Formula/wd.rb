@@ -14,21 +14,31 @@ class Wd < Formula
     end
   end
 
+  on_linux do
+    if Hardware::CPU.arm?
+      url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-linux-arm64.tar.gz"
+      sha256 "4fba4ea7802cb931a6e23cf030f56cbf95e483b607f9f80817ee525d02966845"
+    else
+      url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-linux-x64.tar.gz"
+      sha256 "4ace602edfab1dcbb60d7af72e0d74353e10e6ae8258968965ce6befb442f736"
+    end
+  end
+
   def install
     bin.install "wd-bin"
-    pkgshare.install "wd.zsh"
+    pkgshare.install "wd.zsh", "wd.bash", "wd.fish", "wd.ps1", "wd.nu"
   end
 
   def caveats
     <<~EOS
-      Add this to your ~/.zshrc:
+      Run first-time setup:
 
-        source #{HOMEBREW_PREFIX}/share/wd/wd.zsh
+        wd-bin setup
 
-      Then reload: source ~/.zshrc
-      First-time setup: wd setup
+      This detects your shell, installs the wrapper, and shows
+      the exact line to add to your profile.
 
-      Coming soon: bash, fish, PowerShell, and Nushell support
+      Supported shells: zsh, bash, fish, PowerShell, Nushell
     EOS
   end
 
