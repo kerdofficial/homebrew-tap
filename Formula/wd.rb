@@ -7,10 +7,10 @@ class Wd < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-macos-arm64.tar.gz"
-      sha256 "8eba1e18ae33b6b216f8a5f4a77871dc86a7f2c3cefb5559f65333c50337cdfe"
+      sha256 "c3b1460c09bb023468633aace889d17b022634bbafb283994d9f49115afa7c48"
     else
       url "https://github.com/kerdofficial/wd/releases/download/v#{version}/wd-macos-x64.tar.gz"
-      sha256 "f68c90a3d1007c9afddf30fe663e44fb29dd13d283a5f2cb5d3ccb486bc2b5ff"
+      sha256 "1b579fb79c35c3c3105eb6774483e356a91c827621f84a443ff7f749180ae3e7"
     end
   end
 
